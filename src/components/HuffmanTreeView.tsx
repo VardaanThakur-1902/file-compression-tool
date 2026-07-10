@@ -8,14 +8,17 @@ import {
   ReactFlow,
 } from "@xyflow/react";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { HuffmanNode } from "../algorithms/HuffmanNode";
 import { huffmanTreeToFlow } from "../utils/huffmanTreeToFlow";
+import NodeInfo from "./tree/NodeInfo";
+
 
 interface Props {
   root: HuffmanNode | null;
 }
+
 
 export default function HuffmanTreeView({
   root,
@@ -23,38 +26,49 @@ export default function HuffmanTreeView({
   const { nodes, edges } = useMemo(
     () => huffmanTreeToFlow(root),
     [root]
+
+  
   );
+  
+  const [selectedNode, setSelectedNode] = useState<any>(null);
 
   return (
     <div className="rounded-xl bg-white p-6 shadow-lg">
-
-      <h2 className="mb-4 text-xl font-bold">
+        <h2 className="mb-6 text-xl font-bold">
         Huffman Tree
-      </h2>
+        </h2>
 
-      <div className="h-150 w-full rounded-lg border">
+        <div className="grid gap-6 lg:grid-cols-3">
 
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          fitView
-        >
-          <MiniMap
-                zoomable
-                pannable
-            />
-          <Controls
-                showInteractive
-            />
-          <Background
-                gap={20}
-                size={1}
-            />
-        </ReactFlow>
+        {/* Tree */}
+        <div className="lg:col-span-2">
 
-      </div>
+            <div className="h-150 rounded-lg border">
 
+            <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                nodeTypes={nodeTypes}
+                fitView
+                onNodeClick={(_, node) => setSelectedNode(node)}
+            >
+                <MiniMap zoomable pannable />
+                <Controls position="bottom-right" />
+                <Background gap={24} size={1} />
+            </ReactFlow>
+
+            </div>
+
+        </div>
+
+        {/* Details Panel */}
+        <div>
+
+            <NodeInfo node={selectedNode} />
+
+        </div>
+
+        </div>
     </div>
-  );
+    );
 }

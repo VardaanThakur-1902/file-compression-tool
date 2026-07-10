@@ -30,6 +30,10 @@ export function huffmanTreeToFlow(
             : `${node.character} (${node.frequency})`,
 
         isLeaf: node.isLeaf(),
+
+        character: node.character,
+
+        frequency: node.frequency,
         },
       type: "huffmanNode",
     });
@@ -40,6 +44,8 @@ export function huffmanTreeToFlow(
       const leftId = `${leftX}-${leftY}`;
 
       edges.push({
+        animated: true,
+
         id: `${id}-${leftId}`,
         source: id,
         target: leftId,
@@ -61,6 +67,8 @@ export function huffmanTreeToFlow(
       const rightId = `${rightX}-${rightY}`;
 
       edges.push({
+        animated: true,
+
         id: `${id}-${rightId}`,
         source: id,
         target: rightId,
