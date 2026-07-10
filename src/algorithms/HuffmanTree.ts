@@ -29,6 +29,8 @@ export class HuffmanTree {
 
     return queue;
     }
+  
+  private codes = new Map<string, string>();
 
   buildTree(text: string): HuffmanNode | null {
     const frequencyMap = this.buildFrequencyMap(text);
@@ -57,20 +59,52 @@ export class HuffmanTree {
 
     this.root = queue.extractMin();
 
+    this.generateCodes();
+
     return this.root;
     }
 
-    public printPreorder(
-    node: HuffmanNode | null = this.root
+  public getCodes(): Map<string, string> {
+    return this.codes;
+  }
+
+  public generateCodes(): void {
+    this.codes.clear();
+
+    if (!this.root) return;
+
+    this.buildCodes(this.root, "");
+  }
+  
+  private buildCodes(
+    node: HuffmanNode,
+    currentCode: string
+  ): void
+
+  private buildCodes(
+        node: HuffmanNode,
+        currentCode: string
     ): void {
-    if (!node) return;
 
-    console.log(
-        `Character: ${node.character ?? "*"} | Frequency: ${node.frequency}`
-    );
+        if (node.isLeaf()) {
+            this.codes.set(node.character!, currentCode || "0");
+            return;
+        }
 
-    this.printPreorder(node.left);
-    this.printPreorder(node.right);
+        if (node.left) {
+            this.buildCodes(
+                node.left,
+                currentCode + "0"
+            );
+        }
+
+        if (node.right) {
+            this.buildCodes(
+                node.right,
+                currentCode + "1"
+            );
+        }
     }
+    
     
 }
