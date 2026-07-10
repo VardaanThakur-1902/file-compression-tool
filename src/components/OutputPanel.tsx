@@ -1,3 +1,5 @@
+import DownloadButton from "./DownloadButton";
+
 interface Props {
   encoded: string;
 }
@@ -14,16 +16,27 @@ export default function OutputPanel({
           Compressed Output
         </h2>
 
-        <span className="rounded bg-blue-100 px-3 py-1 text-sm text-blue-700">
-          Binary
-        </span>
+        <DownloadButton
+          encoded={encoded}
+        />
 
       </div>
 
       <textarea
         readOnly
         value={encoded}
-        className="h-56 w-full resize-none rounded-lg border border-slate-300 bg-slate-50 p-4 font-mono text-sm"
+        className="
+          h-56
+          w-full
+          resize-none
+          rounded-lg
+          border
+          border-slate-300
+          bg-slate-50
+          p-4
+          font-mono
+          text-sm
+        "
       />
 
     </div>
