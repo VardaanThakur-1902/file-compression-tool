@@ -21,6 +21,22 @@ export default function Home() {
     setResult(compressed);
   };
 
+  const handleUpload = (
+    uploadedText: string
+  ) => {
+
+      setText(uploadedText);
+
+  };
+
+  const handleClear = () => {
+
+      setText("");
+
+      setResult(null);
+
+  };
+
   return (
     <>
       <Navbar />
@@ -41,6 +57,8 @@ export default function Home() {
           <div className="mt-6">
             <Controls
                 onCompress={handleCompress}
+                onUpload={handleUpload}
+                onClear={handleClear}
             />
 
             {
