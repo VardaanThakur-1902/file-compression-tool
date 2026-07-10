@@ -8,6 +8,7 @@ import type { CompressionResult } from "../types/CompressionResult";
 import OutputPanel from "../components/OutputPanel";
 import StatsGrid from "../components/StatsGrid";
 import CodeTable from "../components/CodeTable";
+import HuffmanTreeView from "../components/HuffmanTreeView";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -88,6 +89,16 @@ export default function Home() {
                         <CodeTable
                           result={result}
                         />
+
+                        {
+                          result && (
+                            <div className="mt-8">
+                              <HuffmanTreeView
+                                root={result.root}
+                              />
+                            </div>
+                          )
+                        }
 
                       </div>
 

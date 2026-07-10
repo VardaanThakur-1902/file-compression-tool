@@ -24,11 +24,14 @@ export function huffmanTreeToFlow(
       id,
       position: { x, y },
       data: {
-        label: node.character
-          ? `${node.character} (${node.frequency})`
-          : `${node.frequency}`,
-      },
-      type: "default",
+        label:
+            node.character === null
+            ? `${node.frequency}`
+            : `${node.character} (${node.frequency})`,
+
+        isLeaf: node.isLeaf(),
+        },
+      type: "huffmanNode",
     });
 
     if (node.left) {
@@ -40,7 +43,9 @@ export function huffmanTreeToFlow(
         id: `${id}-${leftId}`,
         source: id,
         target: leftId,
-      });
+
+        label: "0",
+        });
 
       traverse(
         node.left,
@@ -59,7 +64,9 @@ export function huffmanTreeToFlow(
         id: `${id}-${rightId}`,
         source: id,
         target: rightId,
-      });
+
+        label: "1",
+        });
 
       traverse(
         node.right,

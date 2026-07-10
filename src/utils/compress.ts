@@ -15,18 +15,16 @@ export function compressText(text: string): CompressionResult {
   const stats = calculateCompressionStats(text, encoded);
 
   return {
-      encoded,
+    encoded,
 
-      originalBits: stats.originalBits,
+    originalBits: stats.originalBits,
+    compressedBits: stats.compressedBits,
+    savedBits: stats.savedBits,
+    compressionRatio: stats.compressionRatio,
 
-      compressedBits: stats.compressedBits,
+    codes: tree.getCodes(),
+    frequencies: tree.getFrequencyMap(),
 
-      savedBits: stats.savedBits,
-
-      compressionRatio: stats.compressionRatio,
-
-      codes: tree.getCodes(),
-
-      frequencies: tree.getFrequencyMap(),
+    root: tree.getRoot(),
   };
 }
