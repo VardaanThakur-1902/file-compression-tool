@@ -3,10 +3,15 @@ import { PriorityQueue } from "./PriorityQueue";
 
 export class HuffmanTree {
   private root: HuffmanNode | null = null;
+  private frequencyMap = new Map<string, number>();
 
   getRoot(): HuffmanNode | null {
     return this.root;
   }
+
+  public getFrequencyMap(): Map<string, number> {
+        return this.frequencyMap;
+    }
 
   private buildFrequencyMap(text: string): Map<string, number> {
     const frequencyMap = new Map<string, number>();
@@ -33,9 +38,9 @@ export class HuffmanTree {
   private codes = new Map<string, string>();
 
   buildTree(text: string): HuffmanNode | null {
-    const frequencyMap = this.buildFrequencyMap(text);
+    this.frequencyMap = this.buildFrequencyMap(text);
 
-    const queue = this.buildPriorityQueue(frequencyMap);
+    const queue = this.buildPriorityQueue(this.frequencyMap);
 
     // Handle empty input
     if (queue.isEmpty()) {
@@ -75,11 +80,6 @@ export class HuffmanTree {
 
     this.buildCodes(this.root, "");
   }
-  
-  private buildCodes(
-    node: HuffmanNode,
-    currentCode: string
-  ): void
 
   private buildCodes(
         node: HuffmanNode,

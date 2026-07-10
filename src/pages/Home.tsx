@@ -7,6 +7,7 @@ import { compressText } from "../utils/compress";
 import type { CompressionResult } from "../types/CompressionResult";
 import OutputPanel from "../components/OutputPanel";
 import StatsGrid from "../components/StatsGrid";
+import CodeTable from "../components/CodeTable";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -78,6 +79,20 @@ export default function Home() {
                   <OutputPanel
                     encoded={result.encoded}
                   />
+
+                  {
+                    result && (
+
+                      <div className="mt-8">
+
+                        <CodeTable
+                          result={result}
+                        />
+
+                      </div>
+
+                    )
+                  }
 
                 </div>
               )

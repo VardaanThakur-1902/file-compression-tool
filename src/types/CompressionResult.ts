@@ -10,4 +10,6 @@ export interface CompressionResult {
   compressionRatio: number;
 
   codes: Map<string, string>;
+
+  frequencies: Map<string, number>;
 }
