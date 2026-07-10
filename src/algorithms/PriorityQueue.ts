@@ -22,6 +22,57 @@ export class PriorityQueue {
     }
     }
 
+    private heapifyDown(): void {
+    let index = 0;
+
+    while (true) {
+        const left = this.getLeftChildIndex(index);
+        const right = this.getRightChildIndex(index);
+
+        let smallest = index;
+
+        if (
+        left < this.heap.length &&
+        this.heap[left].frequency < this.heap[smallest].frequency
+        ) {
+        smallest = left;
+        }
+
+        if (
+        right < this.heap.length &&
+        this.heap[right].frequency < this.heap[smallest].frequency
+        ) {
+        smallest = right;
+        }
+
+        if (smallest === index) {
+        break;
+        }
+
+        this.swap(index, smallest);
+
+        index = smallest;
+    }
+    }
+
+    extractMin(): HuffmanNode | null {
+    if (this.isEmpty()) {
+        return null;
+    }
+
+    if (this.heap.length === 1) {
+        return this.heap.pop()!;
+    }
+
+    const min = this.heap[0];
+
+    this.heap[0] = this.heap.pop()!;
+
+    this.heapifyDown();
+
+    return min;
+    }
+
     peek(): HuffmanNode | null {
     if (this.isEmpty()) return null;
 
