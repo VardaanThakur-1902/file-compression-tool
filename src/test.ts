@@ -1,14 +1,19 @@
-import { HuffmanTree } from "./algorithms/HuffmanTree";
-import { huffmanTreeToFlow } from "./utils/huffmanTreeToFlow";
+import { compressText } from "./utils/compress";
+import { decompressFile } from "./utils/decompress";
 
-const tree = new HuffmanTree();
+const text = "hello world";
 
-tree.buildTree("hello world");
+const compressed = compressText(text);
 
-const flow = huffmanTreeToFlow(tree.getRoot());
+const restored = decompressFile(
+  compressed.huffmanFile
+);
 
-console.log("Nodes:");
-console.log(flow.nodes);
+console.log("Original:");
+console.log(text);
 
-console.log("\nEdges:");
-console.log(flow.edges);
+console.log("\nRestored:");
+console.log(restored);
+
+console.log("\nVerification:");
+console.log(text === restored);

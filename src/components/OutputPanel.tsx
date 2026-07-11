@@ -1,11 +1,15 @@
 import DownloadButton from "./DownloadButton";
 
+import type { HuffmanFile } from "../types/HuffmanFile";
+
 interface Props {
   encoded: string;
+  huffmanFile: HuffmanFile;
 }
 
 export default function OutputPanel({
   encoded,
+  huffmanFile,
 }: Props) {
   return (
     <div className="rounded-xl bg-white p-6 shadow-lg">
@@ -16,9 +20,7 @@ export default function OutputPanel({
           Compressed Output
         </h2>
 
-        <DownloadButton
-          encoded={encoded}
-        />
+        <DownloadButton huffmanFile={huffmanFile} />
 
       </div>
 

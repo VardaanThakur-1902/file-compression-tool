@@ -1,14 +1,27 @@
+import type { HuffmanFile } from "../types/HuffmanFile";
+
 interface Props {
-  encoded: string;
+  huffmanFile: HuffmanFile;
 }
 
 export default function DownloadButton({
-  encoded,
+  huffmanFile,
 }: Props) {
+
   const download = () => {
-    const blob = new Blob([encoded], {
-      type: "text/plain",
-    });
+
+    const json = JSON.stringify(
+      huffmanFile,
+      null,
+      2
+    );
+
+    const blob = new Blob(
+      [json],
+      {
+        type: "application/octet-stream",
+      }
+    );
 
     const url = URL.createObjectURL(blob);
 
@@ -18,11 +31,7 @@ export default function DownloadButton({
 
     a.download = "compressed.huff";
 
-    document.body.appendChild(a);
-
     a.click();
-
-    document.body.removeChild(a);
 
     URL.revokeObjectURL(url);
   };
@@ -31,14 +40,14 @@ export default function DownloadButton({
     <button
       onClick={download}
       className="
-        rounded-lg
-        bg-purple-600
-        px-6
-        py-3
-        font-semibold
-        text-white
-        transition
-        hover:bg-purple-700
+      rounded-lg
+      bg-purple-600
+      px-6
+      py-3
+      text-white
+      font-semibold
+      hover:bg-purple-700
+      transition
       "
     >
       Download .huff

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Navbar from "../components/Navbar";
+import AppHeader from "../components/AppHeader";
 import TextInput from "../components/TextInput";
 import Controls from "../components/Controls";
 import { compressText } from "../utils/compress";
@@ -9,6 +9,9 @@ import OutputPanel from "../components/OutputPanel";
 import StatsGrid from "../components/StatsGrid";
 import CodeTable from "../components/CodeTable";
 import HuffmanTreeView from "../components/HuffmanTreeView";
+import DropZone from "../components/DropZone";
+import { decompressFile } from "../utils/decompress";
+import type { HuffmanFile } from "../types/HuffmanFile";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -23,12 +26,9 @@ export default function Home() {
     setResult(compressed);
   };
 
-  const handleUpload = (
-    uploadedText: string
-  ) => {
-
-      setText(uploadedText);
-
+  const handleUpload = (uploadedText: string) => {
+    setText(uploadedText);
+    setResult(null);
   };
 
   const handleClear = () => {
@@ -39,9 +39,23 @@ export default function Home() {
 
   };
 
+  const handleHuffmanUpload = (
+    file: HuffmanFile
+  ) => {
+    const restored = decompressFile(file);
+
+    setText(restored);
+
+    setResult(
+      compressText(restored)
+    );
+  };
+
   return (
     <>
-      <Navbar />
+      <AppHeader />
+
+      
 
       <main className="mx-auto max-w-7xl p-8">
 
@@ -56,6 +70,11 @@ export default function Home() {
             onChange={setText}
           />
 
+          <DropZone
+            onTextUpload={handleUpload}
+            onHuffmanUpload={handleHuffmanUpload}
+          />
+
           <div className="mt-6">
             <Controls
                 onCompress={handleCompress}
@@ -63,51 +82,28 @@ export default function Home() {
                 onClear={handleClear}
             />
 
-            {
-              result && (
+            {result && (
+              <div className="mt-8">
+
                 <div className="mt-8">
-
-                  {
-                    result && (
-                      <div className="mt-8">
-
-                        <StatsGrid result={result} />
-
-                      </div>
-                    )
-                  }
-
-                  <OutputPanel
-                    encoded={result.encoded}
-                  />
-
-                  {
-                    result && (
-
-                      <div className="mt-8">
-
-                        <CodeTable
-                          result={result}
-                        />
-
-                        {
-                          result && (
-                            <div className="mt-8">
-                              <HuffmanTreeView
-                                root={result.root}
-                              />
-                            </div>
-                          )
-                        }
-
-                      </div>
-
-                    )
-                  }
-
+                  <StatsGrid result={result} />
                 </div>
-              )
-            }
+
+                <OutputPanel
+                  encoded={result.encoded}
+                  huffmanFile={result.huffmanFile}
+                />
+
+                <div className="mt-8">
+                  <CodeTable result={result} />
+                </div>
+
+                <div className="mt-8">
+                  <HuffmanTreeView root={result.root} />
+                </div>
+
+              </div>
+            )}
           </div>
 
         </div>

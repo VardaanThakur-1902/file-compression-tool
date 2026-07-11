@@ -37,12 +37,43 @@ export class HuffmanTree {
   
   private codes = new Map<string, string>();
 
-  buildTree(text: string): HuffmanNode | null {
+  buildTreeFromFrequencyMap(frequencyMap: Map<string, number>): HuffmanNode | null {
+    this.frequencyMap = frequencyMap;
+
+    const queue = this.buildPriorityQueue(frequencyMap);
+
+    // Handle empty input
+    if (queue.isEmpty()) {
+        this.root = null;
+        return null;
+    }
+
+    while (queue.size() > 1) {
+        const left = queue.extractMin()!;
+        const right = queue.extractMin()!;
+
+        const parent = new HuffmanNode(
+        null,
+        left.frequency + right.frequency,
+        left,
+        right
+        );
+
+        queue.insert(parent);
+    }
+
+    this.root = queue.extractMin();
+
+    this.generateCodes();
+
+    return this.root;
+    }
+
+  public buildTree(text: string): HuffmanNode | null {
     this.frequencyMap = this.buildFrequencyMap(text);
 
     const queue = this.buildPriorityQueue(this.frequencyMap);
 
-    // Handle empty input
     if (queue.isEmpty()) {
         this.root = null;
         return null;
