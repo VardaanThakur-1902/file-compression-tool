@@ -1,6 +1,6 @@
 import {
   FileArchive,
-  Cpu,
+  
 } from "lucide-react";
 
 export default function AppHeader() {
